@@ -1,0 +1,15 @@
+package main
+
+import (
+	"{{ .Module }}/controllers"
+
+	"github.com/shishir1290/goduck/runtime/server"
+)
+
+func RegisterRoutes(app *server.Server) {
+
+{{- range .Routes }}
+	app.GET("{{ .Path }}", controllers.{{ .Controller }}{{ .Action }})
+{{- end }}
+
+}

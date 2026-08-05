@@ -1,0 +1,17 @@
+app Hello
+
+server {
+    port 8080
+}
+
+route "/" {
+    get -> Home.Index
+}
+
+route "/about" {
+    get -> Home.About
+}
+
+route "/contact" {
+    get -> Home.Contact
+}

@@ -1,0 +1,11 @@
+content, _ := os.ReadFile(filename)
+
+lexer.New()
+
+parser.New()
+
+Parse()
+
+semantic.Analyze()
+
+printer.Print()

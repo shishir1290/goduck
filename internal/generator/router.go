@@ -1,0 +1,21 @@
+package generator
+
+func (g *Generator) generateRouter() {
+
+	content, err := render(
+		"router.go.tmpl",
+		map[string]any{
+			"Module": g.project.Name,
+			"Routes": g.program.Routes,
+		},
+	)
+
+	if err != nil {
+		panic(err)
+	}
+
+	g.project.AddFile(
+		"router.go",
+		content,
+	)
+}

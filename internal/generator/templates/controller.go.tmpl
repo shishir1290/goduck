@@ -1,0 +1,15 @@
+package controllers
+
+import (
+	gcontext "github.com/shishir1290/goduck/runtime/context"
+)
+
+{{- range .Actions }}
+
+func {{ $.Controller }}{{ . }}(
+	ctx *gcontext.Context,
+) {
+	ctx.String("{{ $.Controller }}.{{ . }}")
+}
+
+{{ end }}

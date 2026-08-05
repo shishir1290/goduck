@@ -1,0 +1,16 @@
+package main
+
+import (
+	"github.com/shishir1290/goduck/runtime/server"
+)
+
+func main() {
+
+	app := server.New({{ .Port }})
+
+	RegisterRoutes(app)
+
+	if err := app.Run(); err != nil {
+		panic(err)
+	}
+}
