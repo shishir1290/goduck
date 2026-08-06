@@ -21,7 +21,13 @@ func New(program *ast.Program) *Generator {
 
 func (g *Generator) Generate() *Project {
 
+	g.generateDirectories()
+
 	g.generateGoMod()
+
+	g.generateConfig() 
+
+	g.generateBootstrap()
 
 	g.generateMain()
 

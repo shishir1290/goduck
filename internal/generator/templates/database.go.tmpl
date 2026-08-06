@@ -1,0 +1,27 @@
+package config
+
+type DatabaseConfig struct {
+
+	Host string
+
+	Port int
+
+	User string
+
+	Password string
+
+	Name string
+}
+
+func init() {
+
+	Database.Host = "localhost"
+
+	Database.Port = 3306
+
+	Database.User = "root"
+
+	Database.Password = ""
+
+	Database.Name = ""
+}

@@ -1,13 +1,14 @@
 package semantic
 
-func (a *Analyzer) checkApp() {
+func (a *Analyzer) checkApp() error {
 
 	if a.program.App == nil {
-		a.addError("missing app declaration")
-		return
+		return errorf("missing app declaration")
 	}
 
 	if a.program.App.Name == "" {
-		a.addError("app name cannot be empty")
+		return errorf("app name cannot be empty")
 	}
+
+	return nil
 }

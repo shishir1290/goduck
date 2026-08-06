@@ -1,6 +1,8 @@
 package main
 
 import (
+	"{{ .Module }}/routes"
+
 	"github.com/shishir1290/goduck/runtime/server"
 )
 
@@ -8,7 +10,7 @@ func main() {
 
 	app := server.New({{ .Port }})
 
-	RegisterRoutes(app)
+	routes.RegisterRoutes(app)
 
 	if err := app.Run(); err != nil {
 		panic(err)

@@ -11,10 +11,10 @@ func (p *Parser) parseRoute() *ast.Route {
 
 	route := &ast.Route{}
 
-	// Current token is GET/POST/PUT/PATCH/DELETE
+	// HTTP method
 	route.Method = strings.ToLower(p.current.Literal)
 
-	// Move to path
+	// Path
 	p.nextToken()
 
 	if p.current.Type != lexer.STRING {
@@ -24,7 +24,7 @@ func (p *Parser) parseRoute() *ast.Route {
 
 	route.Path = p.current.Literal
 
-	// Move to ->
+	// ->
 	p.nextToken()
 
 	if p.current.Type != lexer.ARROW {
@@ -32,17 +32,17 @@ func (p *Parser) parseRoute() *ast.Route {
 		return nil
 	}
 
-	// Move to controller
+	// Controller
 	p.nextToken()
 
-	if !p.isIdentifier(p.current.Type) {
-		p.addError("expected controller name")
+	if p.current.Type != lexer.IDENTIFIER {
+		p.addError("expected controller")
 		return nil
 	}
 
 	route.Controller = p.current.Literal
 
-	// Move to .
+	// .
 	p.nextToken()
 
 	if p.current.Type != lexer.DOT {
@@ -50,17 +50,17 @@ func (p *Parser) parseRoute() *ast.Route {
 		return nil
 	}
 
-	// Move to action
+	// Action
 	p.nextToken()
 
-	if !p.isIdentifier(p.current.Type) {
-		p.addError("expected action name")
+	if p.current.Type != lexer.IDENTIFIER {
+		p.addError("expected action")
 		return nil
 	}
 
 	route.Action = p.current.Literal
 
-	// Advance to the next token for ParseProgram()
+	// Move to next statement
 	p.nextToken()
 
 	return route

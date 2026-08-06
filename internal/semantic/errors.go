@@ -1,9 +1,7 @@
 package semantic
 
-type Error struct {
-	Message string
-}
+import "fmt"
 
-func (e Error) Error() string {
-	return e.Message
+func errorf(format string, args ...any) error {
+	return fmt.Errorf(format, args...)
 }

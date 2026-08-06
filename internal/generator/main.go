@@ -5,7 +5,8 @@ func (g *Generator) generateMain() {
 	content, err := render(
 		"main.go.tmpl",
 		map[string]any{
-			"Port": g.program.Server.Port,
+			"Module": g.project.Name,
+			"Port":   g.program.Server.Port,
 		},
 	)
 

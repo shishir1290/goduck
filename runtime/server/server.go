@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/shishir1290/goduck/runtime/container"
 	"github.com/shishir1290/goduck/runtime/context"
 	"github.com/shishir1290/goduck/runtime/engine"
 	"github.com/shishir1290/goduck/runtime/handler"
@@ -16,11 +17,14 @@ type Server struct {
 	engine *engine.Engine
 
 	port int
+
+	container *container.Container
 }
 
 func New(port int) *Server {
 	return &Server{
 		engine: engine.New(),
+		container: container.New(),
 		port:   port,
 	}
 }
@@ -125,4 +129,8 @@ func (s *Server) Static(
 		s.engine.Statics,
 		static.New(prefix, root),
 	)
+}
+
+func (s *Server) Container() *container.Container {
+	return s.container
 }

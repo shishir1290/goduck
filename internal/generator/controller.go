@@ -42,7 +42,8 @@ func (g *Generator) generateControllers() {
 		}
 
 		filename := filepath.Join(
-			"controllers",
+			"app",
+			"Controllers",
 			strings.ToLower(controller.Controller)+".go",
 		)
 

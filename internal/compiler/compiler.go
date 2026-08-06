@@ -46,13 +46,11 @@ func Build(filename string) error {
 
 	errors := analyzer.Analyze()
 
-	if len(errors) > 0 {
+	if errors != nil {
 
 		fmt.Println("\nSemantic Errors:")
 
-		for _, err := range errors {
-			fmt.Println("-", err)
-		}
+		fmt.Println("-", errors)
 
 		return fmt.Errorf("semantic analysis failed")
 	}

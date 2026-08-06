@@ -1,5 +1,7 @@
 package ast
 
+import "strings"
+
 type Route struct {
 	Path       string
 	Method     string
@@ -8,3 +10,7 @@ type Route struct {
 }
 
 func (*Route) node() {}
+
+func (r *Route) MethodUpper() string {
+	return strings.ToUpper(r.Method)
+}

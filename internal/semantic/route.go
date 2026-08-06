@@ -1,30 +1,41 @@
 package semantic
 
-import (
-	"strings"
+import "fmt"
 
-	"github.com/shishir1290/goduck/internal/ast"
-)
+func (a *Analyzer) checkRoutes() error {
 
-func (a *Analyzer) checkRoute(route *ast.Route) {
+	seen := make(map[string]bool)
 
-	if strings.TrimSpace(route.Path) == "" {
-		a.addError("route path cannot be empty")
+	for _, route := range a.program.Routes {
+
+		if route.Path == "" {
+			return errorf("route path cannot be empty")
+		}
+
+		if route.Controller == "" {
+			return errorf("missing controller")
+		}
+
+		if route.Action == "" {
+			return errorf("missing action")
+		}
+
+		key := fmt.Sprintf(
+			"%s:%s",
+			route.Method,
+			route.Path,
+		)
+
+		if seen[key] {
+			return errorf(
+				"duplicate route %s %s",
+				route.Method,
+				route.Path,
+			)
+		}
+
+		seen[key] = true
 	}
 
-	switch strings.ToUpper(route.Method) {
-
-	case "GET", "POST", "PUT", "PATCH", "DELETE":
-
-	default:
-		a.addError("unsupported HTTP method: " + route.Method)
-	}
-
-	if route.Controller == "" {
-		a.addError("controller name cannot be empty")
-	}
-
-	if route.Action == "" {
-		a.addError("controller action cannot be empty")
-	}
+	return nil
 }

@@ -1,7 +1,7 @@
-package main
+package routes
 
 import (
-	"{{ .Module }}/controllers"
+	"{{ .Module }}/app/Controllers"
 
 	"github.com/shishir1290/goduck/runtime/server"
 )
@@ -9,7 +9,7 @@ import (
 func RegisterRoutes(app *server.Server) {
 
 {{- range .Routes }}
-	app.GET("{{ .Path }}", controllers.{{ .Controller }}{{ .Action }})
+	app.{{ .MethodUpper }}("{{ .Path }}", Controllers.{{ .Controller }}{{ .Action }})
 {{- end }}
 
 }

@@ -1,0 +1,10 @@
+package bootstrap
+
+import "github.com/shishir1290/goduck/runtime/server"
+
+func New() *server.Server {
+
+	app := server.New(8080)
+
+	return app
+}

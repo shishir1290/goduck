@@ -1,7 +1,5 @@
 package lexer
 
-import "strings"
-
 var keywords = map[string]TokenType{
 	"app": APP,
 
@@ -9,22 +7,22 @@ var keywords = map[string]TokenType{
 
 	// "route": ROUTE,
 
-	"get": GET,
+	"GET": GET,
 
-	"post": POST,
+	"POST": POST,
 
 	"port": PORT,
 
-	"put": PUT,
+	"PUT": PUT,
 
-	"patch": PATCH,
+	"PATCH": PATCH,
 
-	"delete": DELETE,
+	"DELETE": DELETE,
 }
 
 func LookupIdentifier(ident string) TokenType {
 
-	if tok, ok := keywords[strings.ToLower(ident)]; ok {
+	if tok, ok := keywords[ident]; ok {
 		return tok
 	}
 

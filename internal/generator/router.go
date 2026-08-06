@@ -15,7 +15,7 @@ func (g *Generator) generateRouter() {
 	}
 
 	g.project.AddFile(
-		"router.go",
+		"routes/web.go",
 		content,
 	)
 }
