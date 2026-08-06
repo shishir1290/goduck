@@ -5,20 +5,22 @@ import (
 	"net/http"
 
 	"github.com/shishir1290/goduck/runtime/context"
+	"github.com/shishir1290/goduck/runtime/engine"
 	"github.com/shishir1290/goduck/runtime/handler"
 	"github.com/shishir1290/goduck/runtime/middleware"
-	"github.com/shishir1290/goduck/runtime/router"
+	"github.com/shishir1290/goduck/runtime/static"
 )
 
 type Server struct {
-	router      *router.Router
-	port        int
-	middlewares []middleware.Middleware
+
+	engine *engine.Engine
+
+	port int
 }
 
 func New(port int) *Server {
 	return &Server{
-		router: router.New(),
+		engine: engine.New(),
 		port:   port,
 	}
 }
@@ -27,28 +29,35 @@ func (s *Server) GET(
 	path string,
 	h handler.HandlerFunc,
 ) {
-	s.router.GET(path, h)
+	s.engine.Router.GET(path, h)
 }
 
 func (s *Server) POST(
 	path string,
 	handler handler.HandlerFunc,
 ) {
-	s.router.POST(path, handler)
+	s.engine.Router.POST(path, handler)
 }
 
 func (s *Server) PUT(
 	path string,
 	handler handler.HandlerFunc,
 ) {
-	s.router.PUT(path, handler)
+	s.engine.Router.PUT(path, handler)
+}
+
+func (s *Server) PATCH(
+	path string,
+	handler handler.HandlerFunc,
+) {
+	s.engine.Router.PATCH(path, handler)
 }
 
 func (s *Server) DELETE(
 	path string,
 	handler handler.HandlerFunc,
 ) {
-	s.router.DELETE(path, handler)
+	s.engine.Router.DELETE(path, handler)
 }
 
 func (s *Server) Run() error {
@@ -67,7 +76,7 @@ func (s *Server) ServeHTTP(
 	r *http.Request,
 ) {
 
-	route, params := s.router.Find(
+	route, params := s.engine.Router.Find(
 		r.Method,
 		r.URL.Path,
 	)
@@ -85,9 +94,14 @@ func (s *Server) ServeHTTP(
 		ctx.SetParam(k, v)
 	}
 
+	all := append(
+		s.engine.Middlewares,
+		route.Middlewares...,
+	)
+
 	h := middleware.Apply(
 		route.Handler,
-		s.middlewares,
+		all,
 	)
 
 	h(ctx)
@@ -96,8 +110,19 @@ func (s *Server) ServeHTTP(
 func (s *Server) Use(
 	m middleware.Middleware,
 ) {
-	s.middlewares = append(
-		s.middlewares,
+	s.engine.Middlewares = append(
+		s.engine.Middlewares,
 		m,
+	)
+}
+
+func (s *Server) Static(
+	prefix string,
+	root string,
+) {
+
+	s.engine.Statics = append(
+		s.engine.Statics,
+		static.New(prefix, root),
 	)
 }

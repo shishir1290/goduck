@@ -20,10 +20,15 @@ func New(
 	r *http.Request,
 ) *Context {
 
+	recorder := response.NewRecorder(w)
+
 	return &Context{
-		Request:  request.New(r),
-		Response: response.New(w),
-		params:   make(map[string]string),
+
+		Request: request.New(r),
+
+		Response: response.New(recorder),
+
+		params: make(map[string]string),
 	}
 }
 
@@ -54,4 +59,14 @@ func (ctx *Context) Bind(v any) error {
 		v,
 	)
 
+}
+
+func (ctx *Context) StatusCode() int {
+
+	return ctx.Response.StatusCode()
+}
+
+func (ctx *Context) ResponseSize() int {
+
+	return ctx.Response.Size()
 }

@@ -28,3 +28,15 @@ func (p *Parser) nextToken() {
     p.current = p.peek
     p.peek = p.lexer.NextToken()
 }
+
+func (p *Parser) isIdentifier(t lexer.TokenType) bool {
+	return t == lexer.IDENTIFIER ||
+		t == lexer.APP ||
+		t == lexer.SERVER ||
+		t == lexer.GET ||
+		t == lexer.POST ||
+		t == lexer.PORT ||
+		t == lexer.PUT ||
+		t == lexer.PATCH ||
+		t == lexer.DELETE
+}

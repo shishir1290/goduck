@@ -36,11 +36,17 @@ const (
 
 	SERVER = "SERVER"
 
-	ROUTE = "ROUTE"
+	// ROUTE = "ROUTE"
 
 	GET = "GET"
 
 	POST = "POST"
 
 	PORT = "PORT"
+
+	PUT = "PUT"
+
+	PATCH = "PATCH"
+
+	DELETE = "DELETE"
 )

@@ -3,14 +3,16 @@ package response
 import (
 	"encoding/json"
 	"fmt"
-	"net/http"
 )
 
 type Response struct {
-	writer http.ResponseWriter
+	writer *Recorder
 }
 
-func New(w http.ResponseWriter) *Response {
+func New(
+	w *Recorder,
+) *Response {
+
 	return &Response{
 		writer: w,
 	}
@@ -36,4 +38,14 @@ func (r *Response) Status(code int) {
 
 	r.writer.WriteHeader(code)
 
+}
+
+func (r *Response) StatusCode() int {
+
+	return r.writer.Status
+}
+
+func (r *Response) Size() int {
+
+	return r.writer.Size
 }

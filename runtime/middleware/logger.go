@@ -21,9 +21,11 @@ func Logger() Middleware {
 			next(ctx)
 
 			fmt.Printf(
-				"%s %s %v\n",
+				"%s %-20s %3d %6dB %v\n",
 				ctx.Request.Method(),
 				ctx.Request.Path(),
+				ctx.StatusCode(),
+				ctx.ResponseSize(),
 				time.Since(start),
 			)
 		}

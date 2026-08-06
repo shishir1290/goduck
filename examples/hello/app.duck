@@ -1,17 +1,19 @@
-app Hello
+app API
 
 server {
     port 8080
 }
 
-route "/" {
-    get -> Home.Index
-}
+GET "/users" -> User.Index
+GET "/users/:id" -> User.Show
 
-route "/about" {
-    get -> Home.About
-}
+POST "/users" -> User.Store
 
-route "/contact" {
-    get -> Home.Contact
-}
+PUT "/users/:id" -> User.Update
+
+PATCH "/users/:id" -> User.Patch
+
+DELETE "/users/:id" -> User.Delete
+
+POST "/login" -> Auth.Login
+POST "/logout" -> Auth.Logout

@@ -4,8 +4,8 @@ Goduck is a backend DSL for generating Go applications.
 
 ## Build
 
-go build -o goduck ./cmd/goduck
+go build -o goduck.exe ./cmd/goduck
 
 ## Run
 
-./goduck build examples/hello/app.duck
+./goduck.exe build examples/hello/app.duck

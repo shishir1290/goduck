@@ -19,9 +19,17 @@ func (p *Parser) ParseProgram() *ast.Program {
 		case lexer.SERVER:
 			program.Server = p.parseServer()
 
-		case lexer.ROUTE:
+		case lexer.GET,
+			lexer.POST,
+			lexer.PUT,
+			lexer.PATCH,
+			lexer.DELETE:
+
 			route := p.parseRoute()
-			program.Routes = append(program.Routes, route)
+
+			if route != nil {
+				program.Routes = append(program.Routes, route)
+			}
 
 		default:
 			p.nextToken()

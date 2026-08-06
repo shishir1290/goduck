@@ -64,3 +64,9 @@ func (r *Router) Find(
 
 	return r.tree.Find(method, path)
 }
+
+func (r *Router) AddRoute(route *Route) {
+
+	r.tree.Insert(route)
+
+}

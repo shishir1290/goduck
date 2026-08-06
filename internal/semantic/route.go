@@ -14,7 +14,7 @@ func (a *Analyzer) checkRoute(route *ast.Route) {
 
 	switch strings.ToUpper(route.Method) {
 
-	case "GET", "POST":
+	case "GET", "POST", "PUT", "PATCH", "DELETE":
 
 	default:
 		a.addError("unsupported HTTP method: " + route.Method)
