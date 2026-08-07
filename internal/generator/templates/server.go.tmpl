@@ -1,10 +1,8 @@
-package config
+package {{ .Name }}
 
-type ServerConfig struct {
-	Port int
+type {{ .Service }} struct {
 }
 
-func init() {
-
-	Server.Port = {{ .Port }}
+func New{{ .Service }}() *{{ .Service }} {
+	return &{{ .Service }}{}
 }

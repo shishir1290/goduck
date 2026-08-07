@@ -22,6 +22,10 @@ func (a *Analyzer) Analyze() error {
 		return err
 	}
 
+	if err := a.checkModules(); err != nil {
+		return err
+	}
+
 	if err := a.checkRoutes(); err != nil {
 		return err
 	}

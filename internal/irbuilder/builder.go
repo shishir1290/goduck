@@ -19,22 +19,39 @@ func (b *Builder) Build() *ir.Project {
 
 	project := &ir.Project{}
 
-	project.App.Name = b.program.App.Name
+	if b.program.App != nil {
+		project.App.Name = b.program.App.Name
+	}
 
-	project.Server.Port = b.program.Server.Port
+	if b.program.Server != nil {
+		project.Server.Port = b.program.Server.Port
+	}
 
-	for _, route := range b.program.Routes {
+	for _, module := range b.program.Modules {
 
-		project.Routes = append(project.Routes, ir.Route{
+		irModule := ir.Module{
+			Name:       module.Name,
+			Controller: module.Controller,
+			Service:    module.Service,
+			Repository: module.Repository,
+		}
 
-			Method: route.Method,
+		for _, route := range module.Routes {
 
-			Path: route.Path,
+			irModule.Routes = append(
+				irModule.Routes,
+				ir.Route{
+					Method: route.Method,
+					Path:   route.Path,
+					Action: route.Action,
+				},
+			)
+		}
 
-			Controller: route.Controller,
-
-			Action: route.Action,
-		})
+		project.Modules = append(
+			project.Modules,
+			irModule,
+		)
 	}
 
 	return project

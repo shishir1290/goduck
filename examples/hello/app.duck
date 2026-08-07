@@ -1,19 +1,41 @@
-app API
+app Hello
 
 server {
     port 8080
 }
 
-GET "/users" -> User.Index
-GET "/users/:id" -> User.Show
+module Home {
 
-POST "/users" -> User.Store
+    controller HomeController
 
-PUT "/users/:id" -> User.Update
+    service HomeService
 
-PATCH "/users/:id" -> User.Patch
+    repository HomeRepository
 
-DELETE "/users/:id" -> User.Delete
+    GET "/" -> Index
 
-POST "/login" -> Auth.Login
-POST "/logout" -> Auth.Logout
+    GET "/about" -> About
+
+}
+
+module User {
+
+    controller UserController
+
+    service UserService
+
+    repository UserRepository
+
+    GET "/users" -> Index
+
+    GET "/users/:id" -> Show
+
+    POST "/users" -> Create
+
+    PUT "/users/:id" -> Update
+
+    PATCH "/users/:id" -> Patch
+
+    DELETE "/users/:id" -> Delete
+
+}

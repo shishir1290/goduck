@@ -22,10 +22,11 @@ type Server struct {
 }
 
 func New(port int) *Server {
+
 	return &Server{
-		engine: engine.New(),
+		engine:    engine.New(),
 		container: container.New(),
-		port:   port,
+		port:      port,
 	}
 }
 

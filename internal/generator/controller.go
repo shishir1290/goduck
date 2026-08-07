@@ -3,34 +3,35 @@ package generator
 import (
 	"path/filepath"
 	"strings"
+
+	"github.com/shishir1290/goduck/internal/ast"
 )
 
 type ControllerTemplate struct {
-	Controller string
-	Actions    []string
+	PackageName string
+	Controller  string
+	Actions     []string
 }
 
 func (g *Generator) generateControllers() {
 
-	controllers := map[string]*ControllerTemplate{}
+	for _, module := range g.program.Modules {
 
-	for _, route := range g.program.Routes {
-
-		name := route.Controller
-
-		if _, ok := controllers[name]; !ok {
-			controllers[name] = &ControllerTemplate{
-				Controller: name,
-			}
+		if module.Controller == "" {
+			continue
 		}
 
-		controllers[name].Actions = append(
-			controllers[name].Actions,
-			route.Action,
-		)
-	}
+		actions := make([]string, 0)
 
-	for _, controller := range controllers {
+		for _, route := range module.Routes {
+			actions = append(actions, route.Action)
+		}
+
+		controller := &ControllerTemplate{
+			PackageName: module.PackageName(),
+			Controller:  module.Controller,
+			Actions:     actions,
+		}
 
 		content, err := render(
 			"controller.go.tmpl",
@@ -43,10 +44,16 @@ func (g *Generator) generateControllers() {
 
 		filename := filepath.Join(
 			"app",
-			"Controllers",
-			strings.ToLower(controller.Controller)+".go",
+			strings.ToLower(module.Name),
+			"controller.go",
 		)
 
-		g.project.AddFile(filename, content)
+		g.project.AddFile(
+			filename,
+			content,
+		)
 	}
 }
+
+// Keep ast imported available for the next generator changes.
+var _ *ast.Module

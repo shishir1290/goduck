@@ -1,14 +1,16 @@
 package parser
 
-import "github.com/shishir1290/goduck/internal/lexer"
+import (
+	"github.com/shishir1290/goduck/internal/lexer"
+)
 
 type Parser struct {
-    lexer *lexer.Lexer
+	lexer *lexer.Lexer
 
-    current lexer.Token
-    peek    lexer.Token
+	current lexer.Token
+	peek    lexer.Token
 
-    errors []string
+	errors []string
 }
 
 func New(l *lexer.Lexer) *Parser {
@@ -24,6 +26,8 @@ func New(l *lexer.Lexer) *Parser {
 }
 
 func (p *Parser) nextToken() {
+
 	p.current = p.peek
 	p.peek = p.lexer.NextToken()
 }
+

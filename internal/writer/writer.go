@@ -46,13 +46,16 @@ func (w *Writer) Write() error {
 			return err
 		}
 	}
-
 	for _, file := range w.project.Files {
 
 		path := filepath.Join(
 			root,
 			file.Path,
 		)
+
+		if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
+			return err
+		}
 
 		err := os.WriteFile(
 			path,

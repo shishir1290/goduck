@@ -4,37 +4,50 @@ import "fmt"
 
 func (a *Analyzer) checkRoutes() error {
 
-	seen := make(map[string]bool)
+	for _, module := range a.program.Modules {
 
-	for _, route := range a.program.Routes {
+		seen := make(map[string]bool)
 
-		if route.Path == "" {
-			return errorf("route path cannot be empty")
-		}
+		for _, route := range module.Routes {
 
-		if route.Controller == "" {
-			return errorf("missing controller")
-		}
+			if route.Path == "" {
+				return errorf(
+					"module %s: route path cannot be empty",
+					module.Name,
+				)
+			}
 
-		if route.Action == "" {
-			return errorf("missing action")
-		}
+			if route.Method == "" {
+				return errorf(
+					"module %s: route method cannot be empty",
+					module.Name,
+				)
+			}
 
-		key := fmt.Sprintf(
-			"%s:%s",
-			route.Method,
-			route.Path,
-		)
+			if route.Action == "" {
+				return errorf(
+					"module %s: missing action",
+					module.Name,
+				)
+			}
 
-		if seen[key] {
-			return errorf(
-				"duplicate route %s %s",
+			key := fmt.Sprintf(
+				"%s:%s",
 				route.Method,
 				route.Path,
 			)
-		}
 
-		seen[key] = true
+			if seen[key] {
+				return errorf(
+					"module %s: duplicate route %s %s",
+					module.Name,
+					route.Method,
+					route.Path,
+				)
+			}
+
+			seen[key] = true
+		}
 	}
 
 	return nil

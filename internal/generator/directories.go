@@ -3,24 +3,20 @@ package generator
 func (g *Generator) generateDirectories() {
 
 	dirs := []string{
-
 		"app",
 
 		"app/Controllers",
-		"app/Models",
 		"app/Services",
 		"app/Repositories",
+		"app/Models",
 		"app/Middleware",
 		"app/Requests",
+		"app/Providers",
 
 		"bootstrap",
-
 		"config",
-
 		"routes",
-
 		"storage",
-
 		"public",
 	}
 

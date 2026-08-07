@@ -5,8 +5,8 @@ func (g *Generator) generateRouter() {
 	content, err := render(
 		"router.go.tmpl",
 		map[string]any{
-			"Module": g.project.Name,
-			"Routes": g.program.Routes,
+			"Module":  g.project.Name,
+			"Modules": g.program.Modules,
 		},
 	)
 

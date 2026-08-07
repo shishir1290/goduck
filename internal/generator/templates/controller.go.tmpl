@@ -1,15 +1,20 @@
-package Controllers
+package {{ .Package }}
 
 import (
-	gcontext "github.com/shishir1290/goduck/runtime/context"
+	"github.com/shishir1290/goduck/runtime/context"
 )
 
-{{- range .Actions }}
-
-func {{ $.Controller }}{{ . }}(
-	ctx *gcontext.Context,
-) {
-	ctx.String("{{ $.Controller }}.{{ . }}")
+type {{ .Controller }} struct {
 }
 
-{{ end }}
+func New{{ .Controller }}() *{{ .Controller }} {
+	return &{{ .Controller }}{}
+}
+
+{{- range .Routes }}
+
+func (c *{{ $.Controller }}) {{ .Action }}(ctx *context.Context) {
+	ctx.String("{{ $.Controller }}.{{ .Action }}")
+}
+
+{{- end }}

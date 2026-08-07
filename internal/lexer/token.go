@@ -8,21 +8,17 @@ type Token struct {
 }
 
 const (
-
-	// Special
 	ILLEGAL TokenType = "ILLEGAL"
 	EOF     TokenType = "EOF"
 
-	// Identifier
-	IDENTIFIER = "IDENTIFIER"
+	IDENTIFIER TokenType = "IDENTIFIER"
 
-	// Literals
-	NUMBER = "NUMBER"
-	STRING = "STRING"
+	NUMBER TokenType = "NUMBER"
+	STRING TokenType = "STRING"
 
-	// Symbols
 	LBRACE = "{"
 	RBRACE = "}"
+
 	LPAREN = "("
 	RPAREN = ")"
 
@@ -31,22 +27,19 @@ const (
 
 	ARROW = "->"
 
-	// Keywords
-	APP = "APP"
-
+	APP    = "APP"
 	SERVER = "SERVER"
+	MODULE = "MODULE"
 
-	// ROUTE = "ROUTE"
-
-	GET = "GET"
-
-	POST = "POST"
+	GET    = "GET"
+	POST   = "POST"
+	PUT    = "PUT"
+	PATCH  = "PATCH"
+	DELETE = "DELETE"
 
 	PORT = "PORT"
 
-	PUT = "PUT"
-
-	PATCH = "PATCH"
-
-	DELETE = "DELETE"
+	CONTROLLER = "CONTROLLER"
+	SERVICE    = "SERVICE"
+	REPOSITORY = "REPOSITORY"
 )

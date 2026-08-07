@@ -12,7 +12,9 @@ func (p *Parser) parseRoute() *ast.Route {
 	route := &ast.Route{}
 
 	// HTTP method
-	route.Method = strings.ToLower(p.current.Literal)
+	route.Method = strings.ToUpper(
+		p.current.Literal,
+	)
 
 	// Path
 	p.nextToken()
@@ -32,24 +34,6 @@ func (p *Parser) parseRoute() *ast.Route {
 		return nil
 	}
 
-	// Controller
-	p.nextToken()
-
-	if p.current.Type != lexer.IDENTIFIER {
-		p.addError("expected controller")
-		return nil
-	}
-
-	route.Controller = p.current.Literal
-
-	// .
-	p.nextToken()
-
-	if p.current.Type != lexer.DOT {
-		p.addError("expected '.'")
-		return nil
-	}
-
 	// Action
 	p.nextToken()
 
@@ -60,7 +44,7 @@ func (p *Parser) parseRoute() *ast.Route {
 
 	route.Action = p.current.Literal
 
-	// Move to next statement
+	// Move to next token
 	p.nextToken()
 
 	return route

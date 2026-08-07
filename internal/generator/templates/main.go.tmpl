@@ -3,16 +3,14 @@ package main
 import (
 	"{{ .Module }}/routes"
 
-	"github.com/shishir1290/goduck/runtime/server"
+	"github.com/shishir1290/goduck/runtime/bootstrap"
 )
 
 func main() {
 
-	app := server.New({{ .Port }})
+	app := bootstrap.New({{ .Port }})
 
-	routes.RegisterRoutes(app)
+	routes.Register(app)
 
-	if err := app.Run(); err != nil {
-		panic(err)
-	}
+	app.Run()
 }
