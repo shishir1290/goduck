@@ -9,6 +9,7 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() error {
+	autoInstallExtensionsIfNeeded()
 	return rootCmd.Execute()
 }
 
