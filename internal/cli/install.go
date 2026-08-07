@@ -47,27 +47,39 @@ var installCmd = &cobra.Command{
 		}
 		targetPath := filepath.Join(binDir, binaryName)
 
-		// Copy executable
-		src, err := os.Open(exePath)
-		if err != nil {
-			return fmt.Errorf("failed to open source binary: %w", err)
-		}
-		defer src.Close()
-
-		// Attempt to delete target if exists to avoid "text file busy" error
-		_ = os.Remove(targetPath)
-
-		dst, err := os.OpenFile(targetPath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0755)
-		if err != nil {
-			return fmt.Errorf("failed to open destination path %s: %w", targetPath, err)
-		}
-		defer dst.Close()
-
-		if _, err := io.Copy(dst, src); err != nil {
-			return fmt.Errorf("failed to copy binary: %w", err)
+		// Check if source and destination are the same file
+		isSameFile := false
+		srcInfo, err1 := os.Stat(exePath)
+		dstInfo, err2 := os.Stat(targetPath)
+		if err1 == nil && err2 == nil {
+			isSameFile = os.SameFile(srcInfo, dstInfo)
 		}
 
-		fmt.Printf("✓ Installed Goduck CLI to: %s\n", targetPath)
+		if isSameFile {
+			fmt.Printf("✓ Goduck CLI is already installed at: %s\n", targetPath)
+		} else {
+			// Copy executable
+			src, err := os.Open(exePath)
+			if err != nil {
+				return fmt.Errorf("failed to open source binary: %w", err)
+			}
+			defer src.Close()
+
+			// Attempt to delete target if exists to avoid "text file busy" error
+			_ = os.Remove(targetPath)
+
+			dst, err := os.OpenFile(targetPath, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, 0755)
+			if err != nil {
+				return fmt.Errorf("failed to open destination path %s: %w", targetPath, err)
+			}
+			defer dst.Close()
+
+			if _, err := io.Copy(dst, src); err != nil {
+				return fmt.Errorf("failed to copy binary: %w", err)
+			}
+
+			fmt.Printf("✓ Installed Goduck CLI to: %s\n", targetPath)
+		}
 
 		// 2. Install Editor extensions
 		if err := installExtensions(false); err != nil {
