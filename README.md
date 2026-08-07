@@ -103,6 +103,8 @@ go clean -modcache
 ```
 
 ```
-GOPROXY=direct go install github.com/shishir1290/goduck/cmd/goduck@v0.0.1
+GOPROXY=direct GOSUMDB=off go install github.com/shishir1290/goduck/cmd/goduck@v0.0.1
+
+goduck install
 
 ```
