@@ -1,12 +1,9 @@
 package lexer
 
 var keywords = map[string]TokenType{
-
-	"app": APP,
-
+	"app":    APP,
 	"server": SERVER,
-
-	"module": MODULE,
+	"route":  ROUTE,
 
 	"get":    GET,
 	"post":   POST,
@@ -14,22 +11,27 @@ var keywords = map[string]TokenType{
 	"patch":  PATCH,
 	"delete": DELETE,
 
-	"GET":    GET,
-	"POST":   POST,
-	"PUT":    PUT,
-	"PATCH":  PATCH,
-	"DELETE": DELETE,
-
 	"port": PORT,
 
-	"controller": CONTROLLER,
-	"service":    SERVICE,
-	"repository": REPOSITORY,
+	"let":   LET,
+	"const": CONST,
+
+	"string":  STRING_TYPE,
+	"number":  NUMBER_TYPE,
+	"boolean": BOOLEAN_TYPE,
+	"void":    VOID_TYPE,
+
+	"class":   CLASS,
+	"func":    FUNC,
+	"async":   ASYNC,
+	"await":   AWAIT,
+	"return":  RETURN,
+
+	"import": IMPORT,
+	"from":   FROM,
 }
 
-func LookupIdentifier(
-	ident string,
-) TokenType {
+func LookupIdentifier(ident string) TokenType {
 
 	if tok, ok := keywords[ident]; ok {
 		return tok

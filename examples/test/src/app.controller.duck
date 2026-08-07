@@ -1,0 +1,11 @@
+import { AppService } from "./app.service";
+
+@Controller("/")
+func AppController {
+    service: AppService;
+
+    @GET("/health")
+    async health(): string {
+        return this.service.getHealth();
+    }
+}

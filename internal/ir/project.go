@@ -1,7 +1,8 @@
 package ir
 
+import "github.com/shishir1290/goduck/internal/ast"
+
 type Project struct {
-	App     App
-	Server  Server
-	Modules []Module
+	AppName string
+	Classes []*ast.ClassDeclaration
 }

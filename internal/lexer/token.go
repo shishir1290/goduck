@@ -22,6 +22,12 @@ const (
 	LPAREN = "("
 	RPAREN = ")"
 
+	LBRACKET = "["
+	RBRACKET = "]"
+
+	LT = "<"
+	GT = ">"
+
 	DOT   = "."
 	COMMA = ","
 
@@ -29,7 +35,7 @@ const (
 
 	APP    = "APP"
 	SERVER = "SERVER"
-	MODULE = "MODULE"
+	ROUTE  = "ROUTE"
 
 	GET    = "GET"
 	POST   = "POST"
@@ -42,4 +48,32 @@ const (
 	CONTROLLER = "CONTROLLER"
 	SERVICE    = "SERVICE"
 	REPOSITORY = "REPOSITORY"
+
+	// Variable
+	LET   = "LET"
+	CONST = "CONST"
+
+	IMPORT = "IMPORT"
+	FROM   = "FROM"
+
+	// Types
+	STRING_TYPE  = "STRING_TYPE"
+	NUMBER_TYPE  = "NUMBER_TYPE"
+	BOOLEAN_TYPE = "BOOLEAN_TYPE"
+	VOID_TYPE    = "VOID_TYPE"
+	// OOP keywords
+	CLASS     = "CLASS"
+	FUNC      = "FUNC"
+	ASYNC     = "ASYNC"
+	AWAIT     = "AWAIT"
+	RETURN    = "RETURN"
+	DECORATOR = "DECORATOR"
+	PLUS      = "+"
+
+	// Assignment
+	ASSIGN = "="
+
+	// Statement
+	SEMICOLON = ";"
+	COLON     = ":"
 )

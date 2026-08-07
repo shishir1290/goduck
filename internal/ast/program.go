@@ -1,9 +1,9 @@
 package ast
 
 type Program struct {
-	App     *App
-	Server  *Server
-	Modules []*Module
+	App       *App
+	Classes   []*ClassDeclaration
+	Variables []*VariableDeclaration
 }
 
 func (*Program) node() {}

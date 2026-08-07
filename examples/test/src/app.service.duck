@@ -1,0 +1,6 @@
+@Service("app")
+service AppService {
+    async getHealth(): string {
+        return "OK";
+    }
+}

@@ -1,0 +1,11 @@
+import { AuthService } from "./auth.service";
+
+@Controller("/auth")
+func AuthController {
+    authService: AuthService;
+
+    @POST("/login")
+    async login(): string {
+        return "logged in";
+    }
+}

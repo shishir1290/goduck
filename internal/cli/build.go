@@ -21,6 +21,7 @@ var buildCmd = &cobra.Command{
 			return fmt.Errorf("file not found: %s", filename)
 		}
 
-		return compiler.Build(filename)
+		_, err := compiler.Build(filename)
+		return err
 	},
 }

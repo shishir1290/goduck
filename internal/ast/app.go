@@ -1,7 +1,8 @@
 package ast
 
 type App struct {
-	Name string
+	Name       string
+	Properties []*FieldDeclaration
 }
 
 func (*App) node() {}

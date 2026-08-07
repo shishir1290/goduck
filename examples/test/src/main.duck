@@ -1,0 +1,6 @@
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+
+app Test {
+    port: number = 8080
+}

@@ -113,6 +113,35 @@ func (l *Lexer) NextToken() Token {
 
 	switch l.ch {
 
+	case '[':
+		tok = newToken(LBRACKET, l.ch)
+
+	case ']':
+		tok = newToken(RBRACKET, l.ch)
+
+	case '<':
+		tok = newToken(LT, l.ch)
+
+	case '>':
+		tok = newToken(GT, l.ch)
+
+	case '+':
+		tok = newToken(PLUS, l.ch)
+
+	case '@':
+		ch := l.ch
+		l.readChar()
+		if isLetter(l.ch) {
+			ident := l.readIdentifier()
+			tok = Token{
+				Type:    DECORATOR,
+				Literal: string(ch) + ident,
+			}
+			return tok
+		} else {
+			tok = newToken(ILLEGAL, ch)
+		}
+
 	case '{':
 		tok = newToken(LBRACE, l.ch)
 
@@ -131,9 +160,18 @@ func (l *Lexer) NextToken() Token {
 	case ',':
 		tok = newToken(COMMA, l.ch)
 
+	case '=':
+		tok = newToken(ASSIGN, l.ch)
+
+	case ';':
+		tok = newToken(SEMICOLON, l.ch)
+
 	case '"':
 		tok.Type = STRING
 		tok.Literal = l.readString()
+
+	case ':':
+		tok = newToken(COLON, l.ch)
 
 	case '-':
 		if l.peekChar() == '>' {

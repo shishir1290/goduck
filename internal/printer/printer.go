@@ -7,73 +7,28 @@ import (
 )
 
 func Print(program *ast.Program) {
-
 	fmt.Println("========== AST ==========")
-
 	if program.App != nil {
-		fmt.Printf(
-			"App: %s\n",
-			program.App.Name,
-		)
-	}
-
-	if program.Server != nil {
-		fmt.Println("Server:")
-		fmt.Printf(
-			"  Port: %d\n",
-			program.Server.Port,
-		)
-	}
-
-	for _, module := range program.Modules {
-
-		fmt.Println("Module:")
-		fmt.Printf(
-			"  Name: %s\n",
-			module.Name,
-		)
-
-		if module.Controller != "" {
-			fmt.Printf(
-				"  Controller: %s\n",
-				module.Controller,
-			)
-		}
-
-		if module.Service != "" {
-			fmt.Printf(
-				"  Service: %s\n",
-				module.Service,
-			)
-		}
-
-		if module.Repository != "" {
-			fmt.Printf(
-				"  Repository: %s\n",
-				module.Repository,
-			)
-		}
-
-		for _, route := range module.Routes {
-
-			fmt.Println("  Route:")
-
-			fmt.Printf(
-				"    Path: %s\n",
-				route.Path,
-			)
-
-			fmt.Printf(
-				"    Method: %s\n",
-				route.Method,
-			)
-
-			fmt.Printf(
-				"    Action: %s\n",
-				route.Action,
-			)
+		fmt.Printf("App: %s\n", program.App.Name)
+		for _, prop := range program.App.Properties {
+			fmt.Printf("  Prop: %s\n", prop.Name)
 		}
 	}
 
+	for _, class := range program.Classes {
+		fmt.Printf("Class: %s\n", class.Name)
+		for _, dec := range class.Decorators {
+			fmt.Printf("  Decorator: %s\n", dec.Name)
+		}
+		for _, field := range class.Fields {
+			fmt.Printf("  Field: %s (Type: %s)\n", field.Name, field.Type.Name)
+		}
+		for _, method := range class.Methods {
+			fmt.Printf("  Method: %s\n", method.Name)
+			for _, dec := range method.Decorators {
+				fmt.Printf("    Decorator: %s\n", dec.Name)
+			}
+		}
+	}
 	fmt.Println("=========================")
 }

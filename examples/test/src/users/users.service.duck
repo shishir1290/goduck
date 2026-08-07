@@ -1,0 +1,20 @@
+import { UsersRepository } from "./users.repository";
+import { CreateUserDto } from "./users.dto";
+import { User } from "./user";
+
+@Service("user")
+service UsersService {
+    repo: UsersRepository;
+
+    async findAll(): string {
+        return "all users";
+    }
+
+    async findOne(id: string): string {
+        return "user with id " + id;
+    }
+
+    async create(dto: CreateUserDto): string {
+        return "created " + dto.name;
+    }
+}

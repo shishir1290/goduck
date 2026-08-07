@@ -1,0 +1,6 @@
+@Service("authGuard")
+class AuthGuard {
+    async canActivate(): boolean {
+        return true;
+    }
+}

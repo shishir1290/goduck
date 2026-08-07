@@ -1,0 +1,6 @@
+@Service("usersRepository")
+class UsersRepository {
+    async save(user: User): string {
+        return "saved";
+    }
+}
