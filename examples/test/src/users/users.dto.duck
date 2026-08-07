@@ -1,4 +1,4 @@
-class CreateUserDto {
+func CreateUserDto {
     name: string;
     email: string;
 }

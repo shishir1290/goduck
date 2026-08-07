@@ -4,9 +4,16 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/shishir1290/goduck/internal/config"
 	"github.com/shishir1290/goduck/internal/compiler"
 	"github.com/spf13/cobra"
 )
+
+var buildVerbose bool
+
+func init() {
+	buildCmd.Flags().BoolVarP(&buildVerbose, "verbose", "v", false, "Enable verbose output")
+}
 
 var buildCmd = &cobra.Command{
 	Use:   "build <file.duck>",
@@ -21,6 +28,7 @@ var buildCmd = &cobra.Command{
 			return fmt.Errorf("file not found: %s", filename)
 		}
 
+		config.Verbose = buildVerbose
 		_, err := compiler.Build(filename)
 		return err
 	},

@@ -1,4 +1,4 @@
-class User {
+func User {
     id: number;
     name: string;
     email: string;

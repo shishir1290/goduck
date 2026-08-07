@@ -1,6 +1,9 @@
 package container
 
-import "reflect"
+import (
+	"reflect"
+	"strings"
+)
 
 func (c *Container) Register(
 	target any,
@@ -25,10 +28,28 @@ func (c *Container) Resolve(
 	}
 
 	provider := c.providers[t]
+	if provider == nil {
+		return nil
+	}
 
 	instance := provider(c)
 
 	c.instances[t] = instance
 
 	return instance
+}
+
+func (c *Container) Has(target any) bool {
+	t := reflect.TypeOf(target)
+	_, ok := c.providers[t]
+	return ok
+}
+
+func (c *Container) HasTypeWithName(name string) bool {
+	for t := range c.providers {
+		if strings.Contains(strings.ToLower(t.String()), strings.ToLower(name)) {
+			return true
+		}
+	}
+	return false
 }

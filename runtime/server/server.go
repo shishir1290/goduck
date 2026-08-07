@@ -3,12 +3,15 @@ package server
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/shishir1290/goduck/runtime/container"
 	"github.com/shishir1290/goduck/runtime/context"
+	"github.com/shishir1290/goduck/runtime/database"
 	"github.com/shishir1290/goduck/runtime/engine"
 	"github.com/shishir1290/goduck/runtime/handler"
 	"github.com/shishir1290/goduck/runtime/middleware"
+	"github.com/shishir1290/goduck/runtime/router"
 	"github.com/shishir1290/goduck/runtime/static"
 )
 
@@ -65,9 +68,31 @@ func (s *Server) DELETE(
 	s.engine.Router.DELETE(path, handler)
 }
 
+func (s *Server) Group(
+	prefix string,
+) *router.Group {
+	return s.engine.Router.Group(prefix)
+}
+
 func (s *Server) Run() error {
 
 	fmt.Printf("Goduck running on :%d\n", s.port)
+
+	if s.container.Has((*database.Database)(nil)) {
+		fmt.Println("Database connection: Connected")
+	}
+	if s.container.HasTypeWithName("socket") {
+		fmt.Println("Socket server: Active")
+	}
+
+	routes := s.engine.Router.Routes()
+	if len(routes) > 0 {
+		fmt.Println("\nMapped Routes:")
+		for _, r := range routes {
+			fmt.Printf("  %-8s http://localhost:%d%s\n", "["+r.Method+"]", s.port, r.Path)
+		}
+		fmt.Println()
+	}
 
 	return http.ListenAndServe(
 		fmt.Sprintf(":%d", s.port),
@@ -80,6 +105,15 @@ func (s *Server) ServeHTTP(
 	w http.ResponseWriter,
 	r *http.Request,
 ) {
+	// Enable CORS by default
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type, Accept, Authorization")
+
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 
 	route, params := s.engine.Router.Find(
 		r.Method,
@@ -87,9 +121,23 @@ func (s *Server) ServeHTTP(
 	)
 
 	if route == nil {
+		// Check static files if no route matched
+		for _, st := range s.engine.Statics {
+			prefix := st.Prefix
+			if !strings.HasSuffix(prefix, "/") {
+				prefix += "/"
+			}
+			path := r.URL.Path
+			if !strings.HasSuffix(path, "/") {
+				path += "/"
+			}
+			if strings.HasPrefix(path, prefix) {
+				st.Handler().ServeHTTP(w, r)
+				return
+			}
+		}
 
 		http.NotFound(w, r)
-
 		return
 	}
 

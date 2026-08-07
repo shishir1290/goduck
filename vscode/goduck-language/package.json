@@ -1,0 +1,44 @@
+{
+  "name": "goduck-language",
+  "displayName": "Goduck Language",
+  "description": "VS Code language support for the Goduck framework",
+  "version": "0.0.1",
+  "publisher": "goduck",
+  "icon": "logo.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "main": "./extension.js",
+  "activationEvents": [
+    "onLanguage:goduck"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "goduck",
+        "aliases": [
+          "Goduck",
+          "goduck"
+        ],
+        "extensions": [
+          ".duck"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./logo.png",
+          "dark": "./logo.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "goduck",
+        "scopeName": "source.goduck",
+        "path": "./syntaxes/goduck.tmLanguage.json"
+      }
+    ]
+  }
+}

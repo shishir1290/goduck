@@ -1,5 +1,5 @@
 @Service("usersRepository")
-class UsersRepository {
+func UsersRepository {
     async save(user: User): string {
         return "saved";
     }

@@ -70,3 +70,24 @@ func (r *Router) AddRoute(route *Route) {
 	r.tree.Insert(route)
 
 }
+
+func (r *Router) Routes() []*Route {
+	var routes []*Route
+	var walk func(n *Node)
+	walk = func(n *Node) {
+		if n == nil {
+			return
+		}
+		for _, route := range n.Routes {
+			routes = append(routes, route)
+		}
+		if n.Parameter != nil {
+			walk(n.Parameter)
+		}
+		for _, child := range n.Children {
+			walk(child)
+		}
+	}
+	walk(r.tree.root)
+	return routes
+}

@@ -1,5 +1,5 @@
 @Service("authGuard")
-class AuthGuard {
+func AuthGuard {
     async canActivate(): boolean {
         return true;
     }

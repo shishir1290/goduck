@@ -1,0 +1,8 @@
+import { AuthController } from "./auth.controller.duck";
+import { AuthService } from "./auth.service.duck";
+
+@Module
+func AuthModule {
+    controller: AuthController;
+    service: AuthService;
+}

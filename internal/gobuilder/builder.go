@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"runtime"
 
+	"github.com/shishir1290/goduck/internal/config"
 	"github.com/shishir1290/goduck/internal/generator"
 )
 
@@ -38,7 +39,9 @@ func (b *Builder) Build() error {
 	// Run: go mod tidy
 	// -------------------------
 
-	fmt.Println("Running: go mod tidy")
+	if config.Verbose {
+		fmt.Println("Running: go mod tidy")
+	}
 
 	tidy := exec.Command("go", "mod", "tidy")
 	tidy.Dir = projectDir
@@ -53,7 +56,9 @@ func (b *Builder) Build() error {
 	// Run: go build
 	// -------------------------
 
-	fmt.Println("Running: go build")
+	if config.Verbose {
+		fmt.Println("Running: go build")
+	}
 
 	cmd := exec.Command(
 		"go",
@@ -70,10 +75,12 @@ func (b *Builder) Build() error {
 		return fmt.Errorf("go build failed: %w", err)
 	}
 
-	fmt.Printf(
-		"Executable created: %s\n",
-		filepath.Join(projectDir, output),
-	)
+	if config.Verbose {
+		fmt.Printf(
+			"Executable created: %s\n",
+			filepath.Join(projectDir, output),
+		)
+	}
 
 	return nil
 }

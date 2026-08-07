@@ -1,6 +1,6 @@
-import { UsersRepository } from "./users.repository";
-import { CreateUserDto } from "./users.dto";
-import { User } from "./user";
+import { UsersRepository } from "./users.repository.duck";
+import { CreateUserDto } from "./users.dto.duck";
+import { User } from "./user.duck";
 
 @Service("user")
 service UsersService {

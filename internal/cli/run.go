@@ -13,6 +13,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/shishir1290/goduck/internal/config"
 	"github.com/shishir1290/goduck/internal/compiler"
 	"github.com/spf13/cobra"
 )
@@ -20,13 +21,19 @@ import (
 var (
 	cmdMutex   sync.Mutex
 	runningCmd *exec.Cmd
+	runVerbose bool
 )
+
+func init() {
+	runCmd.Flags().BoolVarP(&runVerbose, "verbose", "v", false, "Enable verbose output")
+}
 
 var runCmd = &cobra.Command{
 	Use:   "run [directory]",
 	Short: "Run the .duck application with hot-reloading (like air)",
 	Args:  cobra.MaximumNArgs(1),
 	RunE: func(cmd *cobra.Command, args []string) error {
+		config.Verbose = runVerbose
 		watchDir := "src"
 		if len(args) > 0 {
 			watchDir = args[0]

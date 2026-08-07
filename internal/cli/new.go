@@ -38,15 +38,49 @@ var newCmd = &cobra.Command{
 
 		// Create files
 		files := map[string]string{
-			filepath.Join(projectDir, "src", "main.duck"): fmt.Sprintf(`import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
+			filepath.Join(projectDir, "src", "main.duck"): fmt.Sprintf(`import { AppModule } from "./app.module.duck";
+import { AuthModule } from "./auth.module.duck";
+import { UserModule } from "./users/user.module.duck";
 
 app %s {
-    port: number = 8080
+    port: number = 9000
+    apiPath: string = "/api"
 }
 `, appName),
 
-			filepath.Join(projectDir, "src", "app.controller.duck"): `import { AppService } from "./app.service";
+			filepath.Join(projectDir, "src", "app.module.duck"): `import { AppController } from "./app.controller.duck";
+import { AppService } from "./app.service.duck";
+
+@Module
+func AppModule {
+    controller: AppController;
+    service: AppService;
+}
+`,
+
+			filepath.Join(projectDir, "src", "auth", "auth.module.duck"): `import { AuthController } from "./auth.controller.duck";
+import { AuthService } from "./auth.service.duck";
+
+@Module
+func AuthModule {
+    controller: AuthController;
+    service: AuthService;
+}
+`,
+
+			filepath.Join(projectDir, "src", "users", "user.module.duck"): `import { UsersController } from "./users.controller.duck";
+import { UsersService } from "./users.service.duck";
+import { UsersRepository } from "./users.repository.duck";
+
+@Module
+func UserModule {
+    controller: UsersController;
+    service: UsersService;
+    repo: UsersRepository;
+}
+`,
+
+			filepath.Join(projectDir, "src", "app.controller.duck"): `import { AppService } from "./app.service.duck";
 
 @Controller("/")
 func AppController {
@@ -67,7 +101,7 @@ service AppService {
 }
 `,
 
-			filepath.Join(projectDir, "src", "users", "user.duck"): `class User {
+			filepath.Join(projectDir, "src", "users", "user.duck"): `func User {
     id: number;
     name: string;
     email: string;
@@ -75,23 +109,23 @@ service AppService {
 }
 `,
 
-			filepath.Join(projectDir, "src", "users", "users.dto.duck"): `class CreateUserDto {
+			filepath.Join(projectDir, "src", "users", "users.dto.duck"): `func CreateUserDto {
     name: string;
     email: string;
 }
 `,
 
 			filepath.Join(projectDir, "src", "users", "users.repository.duck"): `@Service("usersRepository")
-class UsersRepository {
+func UsersRepository {
     async save(user: User): string {
         return "saved";
     }
 }
 `,
 
-			filepath.Join(projectDir, "src", "users", "users.service.duck"): `import { UsersRepository } from "./users.repository";
-import { CreateUserDto } from "./users.dto";
-import { User } from "./user";
+			filepath.Join(projectDir, "src", "users", "users.service.duck"): `import { UsersRepository } from "./users.repository.duck";
+import { CreateUserDto } from "./users.dto.duck";
+import { User } from "./user.duck";
 
 @Service("user")
 service UsersService {
@@ -111,7 +145,7 @@ service UsersService {
 }
 `,
 
-			filepath.Join(projectDir, "src", "users", "users.controller.duck"): `import { UsersService } from "./users.service";
+			filepath.Join(projectDir, "src", "users", "users.controller.duck"): `import { UsersService } from "./users.service.duck";
 
 @Controller("/users")
 func UsersController {
@@ -130,7 +164,7 @@ func UsersController {
 `,
 
 			filepath.Join(projectDir, "src", "auth", "auth.guard.duck"): `@Service("authGuard")
-class AuthGuard {
+func AuthGuard {
     async canActivate(): boolean {
         return true;
     }
@@ -145,7 +179,7 @@ service AuthService {
 }
 `,
 
-			filepath.Join(projectDir, "src", "auth", "auth.controller.duck"): `import { AuthService } from "./auth.service";
+			filepath.Join(projectDir, "src", "auth", "auth.controller.duck"): `import { AuthService } from "./auth.service.duck";
 
 @Controller("/auth")
 func AuthController {

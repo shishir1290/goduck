@@ -1,0 +1,8 @@
+import { AppController } from "./app.controller.duck";
+import { AppService } from "./app.service.duck";
+
+@Module
+func AppModule {
+    controller: AppController;
+    service: AppService;
+}

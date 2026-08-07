@@ -16,4 +16,5 @@ func init() {
 	rootCmd.AddCommand(buildCmd)
 	rootCmd.AddCommand(newCmd)
 	rootCmd.AddCommand(runCmd)
+	rootCmd.AddCommand(installCmd)
 }

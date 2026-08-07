@@ -1,6 +1,8 @@
-import { AppController } from "./app.controller";
-import { AppService } from "./app.service";
+import { AppModule } from "./app.module.duck";
+import { AuthModule } from "./auth.module.duck";
+import { UserModule } from "./users/user.module.duck";
 
 app Test {
-    port: number = 8080
+    port: number = 9000
+    apiPath: string = "/api/v1"
 }

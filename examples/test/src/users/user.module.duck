@@ -1,0 +1,10 @@
+import { UsersController } from "./users.controller.duck";
+import { UsersService } from "./users.service.duck";
+import { UsersRepository } from "./users.repository.duck";
+
+@Module
+func UserModule {
+    controller: UsersController;
+    service: UsersService;
+    repo: UsersRepository;
+}
