@@ -257,7 +257,13 @@ goduck build src
 §§§
 
 ### 2. Run the Server
-Build and run the compiled binary directly:
+
+**Development (with Hot-Reloading):**
+§§§bash
+goduck run
+§§§
+
+**Production (run the compiled binary directly):**
 §§§bash
 ./build/%s/%s.exe
 §§§
